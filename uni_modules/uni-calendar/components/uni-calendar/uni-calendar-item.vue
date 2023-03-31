@@ -166,9 +166,9 @@
 	}
 
 	.uni-calendar-item--isDay {
-		background-color: $uni-color-primary;
-		opacity: 0.8;
-		color: #fff;
+		// background-color: $uni-color-primary;
+		// opacity: 0.8;
+		// color: #fff;
 	}
 
 	.uni-calendar-item--extra {

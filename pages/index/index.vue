@@ -25,19 +25,16 @@
 </template>
 
 <script>
-	import date from "@/static/date.js"
+	import datejs from "@/static/date.js"
 	export default {
 		data() {
 			return {
 				nowObj: {},
 				form: {
-					work: '',
+					work: '2023-03-30',
 					period: 6
 				},
-				selected: [{
-					date: '2023-03-30', // date为所需要打点的日期
-					type: "rest" // abnormal显示为橙色点
-				}]
+				selected: []
 			}
 		},
 		onLoad() {
@@ -47,8 +44,15 @@
 			// this.loopPeriod()
 		},
 		onShow() {
-			this.nowObj = date.timeWeekFormat(new Date())
-			this.form.work = '2023-03-30'
+			uni.showLoading()
+			this.nowObj = datejs.timeWeekFormat(new Date())
+			let gap = datejs.getBeforeDate(this.form.work)
+			if (gap <= this.form.period * -1) {
+				console.log(1)
+				var date = new Date(this.form.work);
+				date.setDate(date.getDate() + this.form.period * 2);
+				this.form.work = datejs.formatDate(date)
+			}
 			// this.searchRest()
 			this.loopPeriod()
 		},
@@ -71,13 +75,9 @@
 				// console.log(this.form.work + 6*l)
 				for (let i = 0; i < this.form.period; i++) {
 					dd.setDate(dd.getDate() + 1); //获取AddDayCount天后的日期
-					var y = dd.getFullYear();
-					var m = (dd.getMonth() + 1) < 10 ? "0" + (dd.getMonth() + 1) : (dd.getMonth() + 1); //获取当前月份的日期，不足10补0
-					var d = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate(); //获取当前几号，不足10补0
-					console.log(y + "-" + m + "-" + d)
 
 					this.selected.push({
-						date: y + "-" + m + "-" + d, // date为所需要打点的日期
+						date: datejs.formatDate(dd), // date为所需要打点的日期
 						type: "rest" // abnormal显示为橙色点
 					})
 				}
@@ -85,25 +85,20 @@
 				// this.loopPeriod(arr)
 			},
 			loopPeriod(arr) {
-				uni.showLoading()
 				this.selected = []
 				for (let l = 0; l < 60; l++) {
 					var date = new Date(this.form.work);
 					date.setDate(date.getDate() + this.form.period * l);
 					if (l % 2 == 0) {
 						this.searchRest(date)
-						// var y = date.getFullYear();
-						// var m = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() +
-						// 1); //获取当前月份的日期，不足10补0
-						// var d = date.getDate() < 10 ? "0" + date.getDate() : date.getDate(); //获取当前几号，不足10补0
-						// console.log(y + "-" + m + "-" + d)
 					} else {
 						continue
 					}
 				}
 				uni.hideLoading()
 				// this.selected = arr
-			}
+			},
+
 		}
 	}
 </script>
