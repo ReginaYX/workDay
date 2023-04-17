@@ -97,10 +97,11 @@ function getBeforeDate(n) {
 	}
 }
 
-function formatDate (date) {
+
+function formatDate(date) {
 	var y = date.getFullYear();
 	var m = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() +
-	1); //获取当前月份的日期，不足10补0
+		1); //获取当前月份的日期，不足10补0
 	var d = date.getDate() < 10 ? "0" + date.getDate() : date.getDate(); //获取当前几号，不足10补0
 	var day = y + "-" + m + "-" + d
 	return day

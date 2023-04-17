@@ -47,10 +47,11 @@
 			uni.showLoading()
 			this.nowObj = datejs.timeWeekFormat(new Date())
 			let gap = datejs.getBeforeDate(this.form.work)
+			console.log(gap)
 			if (gap <= this.form.period * -1) {
-				console.log(1)
 				var date = new Date(this.form.work);
-				date.setDate(date.getDate() + this.form.period * 2);
+				var gapPeriod = Math.floor((gap*-1) / this.form.period)
+				date.setDate(date.getDate() + this.form.period * gapPeriod);
 				this.form.work = datejs.formatDate(date)
 			}
 			// this.searchRest()
